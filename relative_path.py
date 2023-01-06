@@ -17,9 +17,13 @@ from pathlib import Path
 #############################################
 
 PATH_ROOT =     Path(__file__).parent
-PATH_OUTPUT =   PATH_ROOT / "output"
 PATH_DATA =     PATH_ROOT / "data"
 PATH_NTBK =     PATH_ROOT / "notebook"
+
+PATH_OUTPUT =   PATH_ROOT / "output"
+PATH_OUTPUT_DATA = PATH_OUTPUT / "data"
+PATH_OUTPUT_GRAPH = PATH_OUTPUT / "output"
+PATH_OUTPUT_PROF = PATH_OUTPUT / "profiling"
 
 #########################################################
 #   ___  ___ ___ ___ _  _ ___ _____ ___ ___  _  _ ___   #
@@ -38,4 +42,4 @@ PATH_NTBK =     PATH_ROOT / "notebook"
 ######################################
 
 if __name__ == "__main__":
-    None
+    print(PATH_OUTPUT_PROF)

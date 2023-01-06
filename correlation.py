@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from pandas import DataFrame, Series
+from relative_path import PATH_OUTPUT_GRAPH
 
 #############################################
 #   ___ _____ _   _  _ ___   _   ___ ___    #
@@ -21,11 +22,6 @@ from pandas import DataFrame, Series
 #  |___/ |_/_/ \_|_|\_|___/_/ \_|_|_|___/   #
 #                                           #
 #############################################
-
-PATH_ROOT =     Path(__file__).parent
-PATH_OUTPUT =   PATH_ROOT / "output"
-PATH_DATA =     PATH_ROOT / "data"
-PATH_NTBK =     PATH_ROOT / "notebook"
 
 #########################################################
 #   ___  ___ ___ ___ _  _ ___ _____ ___ ___  _  _ ___   #
@@ -45,19 +41,17 @@ def create_correlation(input_df:DataFrame, name:str):
         
         fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
-        plt.savefig(PATH_OUTPUT / f"{name}_data-{corr}_corr.png")
-        
+        plt.savefig(PATH_OUTPUT_GRAPH / f"{name}_data-{corr}_corr.png")
         
 def data_correlation(file_input: Path, file_name:str=None):
     if not isinstance(file_input, Path):
         file_input = Path(file_input)
     
-    # Read CSV
-    df = pd.read_csv(file_input)
+    # Read Parquet
+    df = pd.read_parquet(file_input)
     
     # Create correlation
     create_correlation(df, name=file_input.stem if file_name == None else file_name)
-    
 
 
 ######################################
