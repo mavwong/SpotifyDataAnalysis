@@ -68,11 +68,11 @@ class VisualizeMissing:
         )
         
         chart_name = f"{self.name} Bar - {self._about}"
-        fig_name = f"{self.name}Data_Bar_Missing.png"
+        #fig_name = f"{self.name}Data_Bar_Missing.png"
         fig.set(title=chart_name)
         
-        if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH + fig_name)
+        #if self._export:
+        plt.savefig("sample_bar.png")
         return plt.show()
     
     def Matrix(self):
