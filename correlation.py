@@ -32,7 +32,7 @@ from relative_path import PATH_OUTPUT_GRAPH
 #########################################################
 
 
-def create_correlation(input_df:DataFrame, name:str):
+def create_correlation(input_df:DataFrame, name:str, export:bool = False):
     all_correlation = ["spearman", "kendall", "pearson"]
     
     for corr in all_correlation:
@@ -41,17 +41,19 @@ def create_correlation(input_df:DataFrame, name:str):
         
         fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
-        plt.savefig(PATH_OUTPUT_GRAPH / f"{name}_data-{corr}_corr.png")
         
-def data_correlation(file_input: Path, file_name:str=None):
-    if not isinstance(file_input, Path):
-        file_input = Path(file_input)
+        if export:
+            plt.savefig(PATH_OUTPUT_GRAPH / f"{name}_data-{corr}_corr.png")
+        
+# def data_correlation(file_input: Path, file_name:str=None):
+#     if not isinstance(file_input, Path):
+#         file_input = Path(file_input)
     
-    # Read Parquet
-    df = pd.read_parquet(file_input)
+#     # Read Parquet
+#     df = pd.read_parquet(file_input)
     
-    # Create correlation
-    create_correlation(df, name=file_input.stem if file_name == None else file_name)
+#     # Create correlation
+#     create_correlation(df, name=file_input.stem if file_name == None else file_name)
 
 
 ######################################
