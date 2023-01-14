@@ -40,7 +40,7 @@ plt.ioff()
 #########################################################
 
 
-# Migrated to pandas-profiling
+# Redundant to pandas-profiling
 def export_correlation(input_df:DataFrame, name:str, export:bool = False):
     all_correlation = ["spearman", "kendall", "pearson"]
     
@@ -52,9 +52,9 @@ def export_correlation(input_df:DataFrame, name:str, export:bool = False):
         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
         
         if export:
-            corr_name = f"{DATE_FORMAT}-{name}Data_{corr.title()}Corr.png"
+            corr_name = f"{DATE_FORMAT}-{name}Data_Corr{corr.title()}.png"
             plt.savefig(PATH_OUTPUT_GRAPH / corr_name)
-            plt.close(fig)
+            plt.close("all")
 
 def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
     profile = ProfileReport(input_df, title=name)
