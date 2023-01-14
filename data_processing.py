@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import missingno as msno
 
-from relative_path import PATH_OUTPUT_GRAPH
+from relative_path import PATH_OUTPUT_GRAPH, PATH_OUTPUT_PROF
+from pandas_profiling import ProfileReport
 
 #############################################
 #   ___ _____ _   _  _ ___   _   ___ ___    #
@@ -36,19 +37,27 @@ DATE_FORMAT = str(TODAY.year) + str(TODAY.month) + str(TODAY.day)
 #########################################################
 
 
-def create_correlation(input_df:DataFrame, name:str, export:bool = False):
-    all_correlation = ["spearman", "kendall", "pearson"]
+# Migrated to pandas-profiling
+# def create_correlation(input_df:DataFrame, name:str, export:bool = False):
+#     all_correlation = ["spearman", "kendall", "pearson"]
     
-    for corr in all_correlation:
-        plt.figure(figsize=(16,10), dpi=720)
-        df_corr = input_df.corr(method=corr)
+#     for corr in all_correlation:
+#         plt.figure(figsize=(16,10), dpi=720)
+#         df_corr = input_df.corr(method=corr)
         
-        fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
-        fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
+#         fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
+#         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
         
-        if export:
-            plt.savefig(PATH_OUTPUT_GRAPH / f"{name}_data-{corr}_corr.png")
-            
+#         if export:
+#             plt.savefig(PATH_OUTPUT_GRAPH / f"{name}_data-{corr}_corr.png")
+
+
+def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
+    profile = ProfileReport(input_df, title=name)
+    
+    profile_name = f"{DATE_FORMAT}-{name}Data_Profiling.html"
+    profile.to_file(PATH_OUTPUT_PROF / profile_name)
+    
 
 class VisualizeMissing:
     def __init__(
