@@ -54,6 +54,7 @@ def export_correlation(input_df:DataFrame, name:str, export:bool = False):
         if export:
             corr_name = f"{DATE_FORMAT}-{name}Data_{corr.title()}Corr.png"
             plt.savefig(PATH_OUTPUT_GRAPH / corr_name)
+            plt.close(fig)
 
 def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
     profile = ProfileReport(input_df, title=name)
