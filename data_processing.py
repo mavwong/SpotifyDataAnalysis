@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import missingno as msno
+import math
 
 from relative_path import PATH_OUTPUT_GRAPH, PATH_OUTPUT_PROF
 from pandas_profiling import ProfileReport
@@ -41,7 +42,7 @@ plt.ioff()
 
 
 # Redundant to pandas-profiling
-def export_correlation(input_df:DataFrame, name:str, export:bool = False):
+def export_correlation(input_df:DataFrame, name:str):
     all_correlation = ["spearman", "kendall", "pearson"]
     
     for corr in all_correlation:
@@ -51,16 +52,27 @@ def export_correlation(input_df:DataFrame, name:str, export:bool = False):
         fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
         
-        if export:
-            corr_name = f"{DATE_FORMAT}-{name}Data_Corr{corr.title()}.png"
-            plt.savefig(PATH_OUTPUT_GRAPH / corr_name)
-            plt.close("all")
+        corr_name = f"{DATE_FORMAT}-{name}Data_Corr{corr.title()}.png"
+        plt.savefig(PATH_OUTPUT_GRAPH / corr_name)
+        plt.close("all")
+
 
 def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
     profile = ProfileReport(input_df, title=name)
     
     profile_name = f"{DATE_FORMAT}-{name}Data_Profiling.html"
     profile.to_file(PATH_OUTPUT_PROF / profile_name)
+    
+
+def export_col_hist(input_df:DataFrame, name:str):
+    num_in_df = input_df.select_dtypes(include="number")
+    row_size = math.ceil(len(num_in_df.columns) / 4) * 5
+    num_in_df.hist(bins=20, color="orange", figsize=(30, row_size))
+    
+    hist_name = f"{DATE_FORMAT}-{name}Data_Hist.html"
+    plt.savefig(PATH_OUTPUT_GRAPH / hist_name)
+    plt.close("all")
+
 
 class VisualizeMissing:
     def __init__(
@@ -136,6 +148,7 @@ class VisualizeMissing:
         if self._export:
             plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
         return plt.show()
+
 
 ######################################
 #   ___ ___  ___   ___ ___ ___ ___   #
