@@ -40,7 +40,7 @@ def create_correlation(input_df:DataFrame, name:str, export:bool = False):
 
 class VisualizeMissing:
     def __init__(self, input_df:DataFrame, name:str, export:bool=False) -> None:
-        self.df:DataFrame = input_df
+        self.df:DataFrame = input_df.copy(deep=True)
         self.name = name.title()
         
         self._export = export
@@ -50,9 +50,6 @@ class VisualizeMissing:
         self._figsize:int = (30,15)
         
         self._about:str = "Visualize Missing, NA, 0 values"
-        
-        self._process_null = False
-        self._process_zero = False
         
     def __post_init__(self):
         """ Post process the dataframe. """
@@ -67,12 +64,12 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name} Bar - {self._about}"
-        #fig_name = f"{self.name}Data_Bar_Missing.png"
+        chart_name = f"{self.name} - Bar Chart - {self._about}"
+        fig_name = f"{self.name}Data_Matrix_Missing.png"
         fig.set(title=chart_name)
         
-        #if self._export:
-        plt.savefig("sample_bar.png")
+        if self._export:
+            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
         return plt.show()
     
     def Matrix(self):
@@ -83,7 +80,7 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name} Matrix - {self._about}"
+        chart_name = f"{self.name}-Matrix Chart-{self._about}"
         fig_name = f"{self.name}Data_Matrix_Missing.png"
         fig.set(title=chart_name)
         
@@ -99,7 +96,7 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name} Heatmap - {self._about}"
+        chart_name = f"{self.name} - Heatmap Chart - {self._about}"
         fig_name = f"{self.name}Data_Heatmap_Missing.png"
         fig.set(title=chart_name)
         

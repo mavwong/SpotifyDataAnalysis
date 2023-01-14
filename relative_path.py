@@ -22,7 +22,7 @@ PATH_NTBK =     PATH_ROOT / "notebook"
 
 PATH_OUTPUT =   PATH_ROOT / "output"
 PATH_OUTPUT_DATA = PATH_OUTPUT / "data"
-PATH_OUTPUT_GRAPH = PATH_OUTPUT / "output"
+PATH_OUTPUT_GRAPH = PATH_OUTPUT / "graph"
 PATH_OUTPUT_PROF = PATH_OUTPUT / "profiling"
 
 #########################################################
@@ -42,4 +42,4 @@ PATH_OUTPUT_PROF = PATH_OUTPUT / "profiling"
 ######################################
 
 if __name__ == "__main__":
-    print(PATH_OUTPUT_PROF)
+    None
