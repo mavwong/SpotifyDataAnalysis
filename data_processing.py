@@ -61,7 +61,6 @@ class VisualizeMissing:
         
         self.df:DataFrame = input_df.copy(deep=True)
         self._process_data(replace_null=process_null, replace_zero=process_zero)
-        
         self.name = name.title()
         
         self._export = export
