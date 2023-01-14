@@ -6,8 +6,8 @@
 #                                        #
 ##########################################
 
-from pathlib import Path
 from pandas import DataFrame, Series
+from datetime import date
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,6 +24,18 @@ from relative_path import PATH_OUTPUT_GRAPH
 #                                           #
 #############################################
 
+TODAY = date.today()
+DATE_FORMAT = str(TODAY.year) + str(TODAY.month) + str(TODAY.day)
+
+#########################################################
+#   ___  ___ ___ ___ _  _ ___ _____ ___ ___  _  _ ___   #
+#  |   \| __| __|_ _| \| |_ _|_   _|_ _/ _ \| \| / __|  #
+#  | |) | _|| _| | || .` || |  | |  | | (_) | .` \__ \  #
+#  |___/|___|_| |___|_|\_|___| |_| |___\___/|_|\_|___/  #
+#                                                       #
+#########################################################
+
+
 def create_correlation(input_df:DataFrame, name:str, export:bool = False):
     all_correlation = ["spearman", "kendall", "pearson"]
     
@@ -39,8 +51,17 @@ def create_correlation(input_df:DataFrame, name:str, export:bool = False):
             
 
 class VisualizeMissing:
-    def __init__(self, input_df:DataFrame, name:str, export:bool=False) -> None:
+    def __init__(
+            self, 
+            input_df:DataFrame, 
+            name:str, export:bool=False, 
+            process_null:bool=False, 
+            process_zero:bool=False
+        ) -> None:
+        
         self.df:DataFrame = input_df.copy(deep=True)
+        self._process_data(replace_null=process_null, replace_zero=process_zero)
+        
         self.name = name.title()
         
         self._export = export
@@ -48,13 +69,14 @@ class VisualizeMissing:
         
         self._label_rotation:int = 90
         self._figsize:int = (30,15)
-        
         self._about:str = "Visualize Missing, NA, 0 values"
         
-    def __post_init__(self):
-        """ Post process the dataframe. """
-        self.df.replace("", np.NaN, inplace=True)
-        self.df.replace(0,  np.NaN, inplace=True)
+    def _process_data(self, replace_null:bool, replace_zero:bool):
+        """ Process the dataframe. """
+        if replace_null:
+            self.df.replace("", np.NaN, inplace=True)
+        if replace_zero:
+            self.df.replace(0,  np.NaN, inplace=True)
     
     def Bar(self):
         fig = msno.bar(
@@ -64,8 +86,8 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name} - Bar Chart - {self._about}"
-        fig_name = f"{self.name}Data_Matrix_Missing.png"
+        chart_name = f"{self.name} Data - Bar Chart - {self._about}"
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_BarChart-NullExplore.png"
         fig.set(title=chart_name)
         
         if self._export:
@@ -80,12 +102,12 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name}-Matrix Chart-{self._about}"
-        fig_name = f"{self.name}Data_Matrix_Missing.png"
+        chart_name = f"{self.name} Data - Matrix Chart - {self._about}"
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_MatrixChart-NullExplore.png"
         fig.set(title=chart_name)
         
         if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH + fig_name)
+            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
         return plt.show()
     
     def Heatmap(self):
@@ -96,22 +118,13 @@ class VisualizeMissing:
             figsize = self._figsize
         )
         
-        chart_name = f"{self.name} - Heatmap Chart - {self._about}"
-        fig_name = f"{self.name}Data_Heatmap_Missing.png"
+        chart_name = f"{self.name} Data - Heatmap Chart - {self._about}"
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_HeatmapChart-NullExplore.png"
         fig.set(title=chart_name)
         
         if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH + fig_name)
+            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
         return plt.show()
-
-
-#########################################################
-#   ___  ___ ___ ___ _  _ ___ _____ ___ ___  _  _ ___   #
-#  |   \| __| __|_ _| \| |_ _|_   _|_ _/ _ \| \| / __|  #
-#  | |) | _|| _| | || .` || |  | |  | | (_) | .` \__ \  #
-#  |___/|___|_| |___|_|\_|___| |_| |___\___/|_|\_|___/  #
-#                                                       #
-#########################################################
 
 ######################################
 #   ___ ___  ___   ___ ___ ___ ___   #
