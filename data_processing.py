@@ -69,7 +69,7 @@ def export_col_hist(input_df:DataFrame, name:str):
     row_size = math.ceil(len(num_in_df.columns) / 4) * 5
     num_in_df.hist(bins=20, color="orange", figsize=(30, row_size))
     
-    hist_name = f"{DATE_FORMAT}-{name}Data_Hist.html"
+    hist_name = f"{DATE_FORMAT}-{name}Data_Hist.png"
     plt.savefig(PATH_OUTPUT_GRAPH / hist_name)
     plt.close("all")
 
