@@ -156,8 +156,9 @@ class VisualizeMissing:
     
     
 class VisualizeFeatureColumns:
-    def __init__(self, input_df:DataFrame, feature_cols:List[str], criteria:int) -> None:
+    def __init__(self, input_df:DataFrame, name:str, feature_cols:List[str], criteria:int) -> None:
         self.df = input_df.copy()
+        self.name = name
         
         self._feature = feature_cols
         self._criteria = criteria
@@ -182,12 +183,19 @@ class VisualizeFeatureColumns:
             go.Scatterpolar(r=self.df[self._feature].head(top_25).median(), theta=self._feature, fill='toself', name="Top 25%"),
         ],
         layout=go.Layout(
-            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
             polar={'radialaxis': {'visible':True}},
             showlegend=True
             )
         )
-        fig.show()
+        
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_PolarFeatureByCount.png"
+        if export:
+            fig.write_image(PATH_OUTPUT_GRAPH / fig_name)
+            plt.close("all")
+        else:
+            fig.show()
+        
         
         
     def TopDataByCount(self, export:bool=False):
@@ -198,12 +206,17 @@ class VisualizeFeatureColumns:
             go.Scatterpolar(r=self.df[self._feature].median(), theta=self._feature, fill='toself', name='All'),
         ],
         layout=go.Layout(
-            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
             polar={'radialaxis': {'visible':True}},
             showlegend=True
             )
         )
-        fig.show()
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_PolarFeatureByPerct.png"
+        if export:
+            fig.write_image(PATH_OUTPUT_GRAPH / fig_name)
+            plt.close("all")
+        else:
+            fig.show()
 
 
 ######################################
