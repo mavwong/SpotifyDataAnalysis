@@ -179,8 +179,8 @@ class VisualizeFeatureColumns:
         
         fig = go.Figure(
         data=[
-            go.Scatterpolar(r=self.df[self._feature].head(top_10).median(), theta=self._feature, fill='toself', name="Top 10%"),
-            go.Scatterpolar(r=self.df[self._feature].head(top_25).median(), theta=self._feature, fill='toself', name="Top 25%"),
+            go.Scatterpolar(r=self.df[self._feature].head(top_10).median(), theta=self._feature, fill='toself', opacity=0.6, name="Top 10%"),
+            go.Scatterpolar(r=self.df[self._feature].head(top_25).median(), theta=self._feature, fill='toself', opacity=0.6, name="Top 25%"),
         ],
         layout=go.Layout(
             title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
@@ -197,13 +197,12 @@ class VisualizeFeatureColumns:
             fig.show()
         
         
-        
     def TopDataByCount(self, export:bool=False):
         fig = go.Figure(
         data=[
-            go.Scatterpolar(r=self.df[self._feature].head(100).median(), theta=self._feature, fill='toself', name="Top 100"),
-            go.Scatterpolar(r=self.df[self._feature].head(10).median(), theta=self._feature, fill='toself', name="Top 10"),
-            go.Scatterpolar(r=self.df[self._feature].median(), theta=self._feature, fill='toself', name='All'),
+            go.Scatterpolar(r=self.df[self._feature].head(100).median(), theta=self._feature, fill='toself', opacity=0.6, name="Top 100"),
+            go.Scatterpolar(r=self.df[self._feature].head(10).median(), theta=self._feature, fill='toself', opacity=0.6, name="Top 10"),
+            go.Scatterpolar(r=self.df[self._feature].median(), theta=self._feature, fill='toself', opacity=0.6, name='All'),
         ],
         layout=go.Layout(
             title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
