@@ -15,8 +15,13 @@ import seaborn as sns
 import missingno as msno
 import math
 
+from typing import List, Dict, Final, Optional
+
 from relative_path import PATH_OUTPUT_GRAPH, PATH_OUTPUT_PROF
 from pandas_profiling import ProfileReport
+
+import plotly.graph_objects as go
+import plotly.offline as pyo
 
 #############################################
 #   ___ _____ _   _  _ ___   _   ___ ___    #
@@ -148,6 +153,57 @@ class VisualizeMissing:
         if self._export:
             plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
         return plt.show()
+    
+    
+class VisualizeFeatureColumns:
+    def __init__(self, input_df:DataFrame, feature_cols:List[str], criteria:int) -> None:
+        self.df = input_df.copy()
+        
+        self._feature = feature_cols
+        self._criteria = criteria
+        
+        self._process_df()
+        
+    def _process_df(self) -> DataFrame:
+        self.df.sort_values(by=self._criteria, ascending=False, inplace=True)
+        self.df.reset_index(drop=True, inplace=True)
+        
+    def _compute_rows_percent(self, percentage=100):
+        rows, _ = self.df.shape
+        return int(rows*(percentage/100))
+    
+    def TopDataByPercent(self, export:bool=False):
+        top_10 = self._compute_rows_percent(10)
+        top_25 = self._compute_rows_percent(25)
+        
+        fig = go.Figure(
+        data=[
+            go.Scatterpolar(r=self.df[self._feature].head(top_10).median(), theta=self._feature, fill='toself', name="Top 10%"),
+            go.Scatterpolar(r=self.df[self._feature].head(top_25).median(), theta=self._feature, fill='toself', name="Top 25%"),
+        ],
+        layout=go.Layout(
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
+            polar={'radialaxis': {'visible':True}},
+            showlegend=True
+            )
+        )
+        fig.show()
+        
+        
+    def TopDataByCount(self, export:bool=False):
+        fig = go.Figure(
+        data=[
+            go.Scatterpolar(r=self.df[self._feature].head(100).median(), theta=self._feature, fill='toself', name="Top 100"),
+            go.Scatterpolar(r=self.df[self._feature].head(10).median(), theta=self._feature, fill='toself', name="Top 10"),
+            go.Scatterpolar(r=self.df[self._feature].median(), theta=self._feature, fill='toself', name='All'),
+        ],
+        layout=go.Layout(
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
+            polar={'radialaxis': {'visible':True}},
+            showlegend=True
+            )
+        )
+        fig.show()
 
 
 ######################################
