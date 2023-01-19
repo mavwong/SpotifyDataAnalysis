@@ -33,7 +33,19 @@ PROCESSED_TRACK_DATA =  PATH_PROC_DATA / "tracks_processed.parquet"
 PROCESSED_ARTIST_DATA = PATH_PROC_DATA / "artists_processed.parquet"
 PROCESSED_FEATURE_DATA = PATH_PROC_DATA / "features_processed.parquet"
 
-FEATURE_COLS = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'time_signature']
+FEATURE_COLS = ['danceability', 
+                'explicit',
+                'energy',
+                'key',
+                'loudness',
+                'mode',
+                'speechiness',
+                'acousticness',
+                'instrumentalness',
+                'liveness',
+                'valence',
+                'tempo',
+                'time_signature']
 
 #########################################################
 #   ___  ___ ___ ___ _  _ ___ _____ ___ ___  _  _ ___   #

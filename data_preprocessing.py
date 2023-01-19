@@ -37,14 +37,16 @@ def isolate_columns(input_df:DataFrame, feature_cols:List[str], merge_in:str="id
     cols_df = list(df.columns)
     
     # Get the main_cols
-    main_cols = [merge_in]
+    main_cols = []
     for col in cols_df:
         if not col in feature_cols:
             main_cols.append(col)
             
     # main dataframe vs feature dataframe
     df_main = df[main_cols]
-    df_feature = df[feature_cols]
+    
+    feature = [merge_in] + feature_cols
+    df_feature = df[feature]
     return df_main, df_feature
 
 def remove_characters(string:str, special_char:str = None):
