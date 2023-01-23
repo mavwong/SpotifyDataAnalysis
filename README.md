@@ -1,5 +1,12 @@
 # Spotify Dataset - Data Analysis
 
+- Introduction and Background
+- Body
+- Interpreting the data
+- Conclusion, Takeaway, Recommendation
+
+
+
 This is a compilation of some of my exploration in the course data analysis in Datacamp.
 
 Analysis of the Spotify datasets.
@@ -10,7 +17,7 @@ The dataset is from Kaggle. Here is the link to the [Spotify Dataset](https://ww
 
 ---
 
-## Project Stages
+### Project Stages
 
 Here, we created a workflow and project stages to make sure that our analysis is based of our target or main criteria. For this dataset, popularity is our main criteria and we will aligned our analysis relative to that feature.
 
