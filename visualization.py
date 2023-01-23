@@ -17,7 +17,7 @@ import math
 
 from typing import List, Dict, Final, Optional
 
-from relative_path import OUTPUT_EXPLORE, OUTPUT_MAIN, OUTPUT_FEATURE
+from relative_path import OUTPUT_EXPLORE, OUTPUT_MAIN, OUTPUT_FEATURE, PATH_OUTPUT
 from pandas_profiling import ProfileReport
 
 import plotly.graph_objects as go
@@ -66,7 +66,7 @@ def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
     profile = ProfileReport(input_df, title=name)
     
     profile_name = f"{DATE_FORMAT}-{name}Data_Profiling.html"
-    profile.to_file(OUTPUT_EXPLORE / profile_name)
+    profile.to_file(PATH_OUTPUT / profile_name)
     
 
 def export_col_hist(input_df:DataFrame, name:str):
