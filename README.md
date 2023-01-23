@@ -60,10 +60,18 @@ Here, we created a workflow and project stages to make sure that our analysis is
 Due to many results per stages, I am only going show some of the one to two images or data.
 
 #### Exploring Dataset
+With the matrix diagram, we were able to analyze values that has null, zero and nan in the entire dataset, plus the location of those values. Another good visualization for this stage, histogram of all the features within the dataset. This reveals the skewness of the distribution. For example in the popularity histogram, there is a lot of the datapoints with 0 values within the column.
+
+![alt text](output/01-data_exploration/2023114-TracksData_MatrixChart-NullExplore.png)
+![alt text](output/01-data_exploration/2023115-TracksData_Hist.png)
+
 #### Transforming Dataset
 
-#### Main Column Features
-#### Features
+#### Main Features
+#### Features 
+The top 10% and 25% of the tracks in the datasets has high energy, high danceability and high valence.
+
+![alt text](output/04-analysis_feature/2023116-TracksData_PolarFeatureByCount.png)
 
 ### 3.2 Takeaways and Recommendation
 - Processing list of lists within pandas library is not a scalable solution, especially given a large datasets.
