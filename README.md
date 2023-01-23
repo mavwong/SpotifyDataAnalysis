@@ -57,7 +57,7 @@ Here, we created a workflow and project stages to make sure that our analysis is
 ## 3. Result
 
 ### 3.1 Results (per stage)
-Due to many results per stages, I am only going show some of the one to two images or data.
+Due to many results, I am only going show some of the result per stage.
 
 #### Exploring Dataset
 With the matrix diagram, we were able to analyze values that has null, zero and nan in the entire dataset, plus the location of those values. Another good visualization for this stage, histogram of all the features within the dataset. This reveals the skewness of the distribution. For example in the popularity histogram, there is a lot of the datapoints with 0 values within the column.
