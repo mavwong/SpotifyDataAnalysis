@@ -17,7 +17,7 @@ import math
 
 from typing import List, Dict, Final, Optional
 
-from relative_path import PATH_OUTPUT_GRAPH, PATH_OUTPUT_PROF
+from relative_path import OUTPUT_EXPLORE, OUTPUT_MAIN, OUTPUT_FEATURE
 from pandas_profiling import ProfileReport
 
 import plotly.graph_objects as go
@@ -58,7 +58,7 @@ def export_correlation(input_df:DataFrame, name:str):
         fig.set(title=f"{name.title()} - {corr.title()} Correlation Heatmap")
         
         corr_name = f"{DATE_FORMAT}-{name}Data_Corr{corr.title()}.png"
-        plt.savefig(PATH_OUTPUT_GRAPH / corr_name)
+        plt.savefig(OUTPUT_EXPLORE / corr_name)
         plt.close("all")
 
 
@@ -66,7 +66,7 @@ def export_profiling(input_df:DataFrame, name:str) -> ProfileReport:
     profile = ProfileReport(input_df, title=name)
     
     profile_name = f"{DATE_FORMAT}-{name}Data_Profiling.html"
-    profile.to_file(PATH_OUTPUT_PROF / profile_name)
+    profile.to_file(OUTPUT_EXPLORE / profile_name)
     
 
 def export_col_hist(input_df:DataFrame, name:str):
@@ -75,7 +75,7 @@ def export_col_hist(input_df:DataFrame, name:str):
     num_in_df.hist(bins=20, color="orange", figsize=(30, row_size))
     
     hist_name = f"{DATE_FORMAT}-{name}Data_Hist.png"
-    plt.savefig(PATH_OUTPUT_GRAPH / hist_name)
+    plt.savefig(OUTPUT_EXPLORE / hist_name)
     plt.close("all")
 
 
@@ -119,7 +119,7 @@ class VisualizeMissing:
         fig.set(title=chart_name)
         
         if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
+            plt.savefig(OUTPUT_EXPLORE / fig_name)
         return plt.show()
     
     def Matrix(self):
@@ -135,7 +135,7 @@ class VisualizeMissing:
         fig.set(title=chart_name)
         
         if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
+            plt.savefig(OUTPUT_EXPLORE / fig_name)
         return plt.show()
     
     def Heatmap(self):
@@ -151,7 +151,7 @@ class VisualizeMissing:
         fig.set(title=chart_name)
         
         if self._export:
-            plt.savefig(PATH_OUTPUT_GRAPH / fig_name)
+            plt.savefig(OUTPUT_EXPLORE / fig_name)
         return plt.show()
     
     
@@ -191,7 +191,7 @@ class VisualizeFeatureColumns:
         
         fig_name = f"{DATE_FORMAT}-{self.name}Data_PolarFeatureByCount.png"
         if export:
-            fig.write_image(PATH_OUTPUT_GRAPH / fig_name)
+            fig.write_image(OUTPUT_FEATURE / fig_name)
             plt.close("all")
         else:
             fig.show()
@@ -212,7 +212,7 @@ class VisualizeFeatureColumns:
         )
         fig_name = f"{DATE_FORMAT}-{self.name}Data_PolarFeatureByPerct.png"
         if export:
-            fig.write_image(PATH_OUTPUT_GRAPH / fig_name)
+            fig.write_image(OUTPUT_FEATURE / fig_name)
             plt.close("all")
         else:
             fig.show()
