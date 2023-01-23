@@ -10,7 +10,7 @@ The author created this repo for its portfolio, at the same time, to test functi
 The dataset is from Kaggle. Here is the link to the [Spotify Dataset](https://www.kaggle.com/datasets/lehaknarnauli/spotify-datasets). There are two (2) datasets we have used for this project - Tracks and artists dataset. The following are its column feature fromt he data:
 
 #### Main Features
-- track_id and artist_id: unique identifier for each track used by Spotify (randomly generated alphanumeric string)
+- track_id and artist_id: unique identifier for each track and artist used by Spotify (randomly generated alphanumeric string)
 - track_name and artist_name: track name
 - popularity: song popularity score as of March 2021 on a normalized scale [0-100] where 100 is the most popular
 - duration_ms: duration of track in milliseconds
@@ -74,7 +74,7 @@ The top 10% and 25% of the tracks in the datasets has high energy, high danceabi
 ![alt text](output/04-analysis_feature/2023116-TracksData_PolarFeatureByCount.png)
 
 ### 3.2 Takeaways and Recommendation
-- Processing list of lists within pandas library is not a scalable solution, especially given a large datasets.
+- Processing list of lists within pandas library is not a scalable solution, especially given a large datasets. Explore polars in pyspark in python as alternative.
 - Criteria should be emphasize at the early stage of the analysis. It gives the direction for the reports, datas and graphs to extract and process. In here, we emphasize on the tracks popularity; given the popularity what features are significantly higher.
 
 
