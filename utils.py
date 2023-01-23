@@ -28,6 +28,7 @@ from relative_path import PATH_DATA, PATH_OUTPUT_DATA, PATH_OUTPUT_GRAPH, PATH_O
 #                                                       #
 #########################################################
 
+
 def convert_csv_parquet(input_path:Path) -> None:
     """ Convert CSV file to Parquet. """
     if not isinstance(input_path, Path):
