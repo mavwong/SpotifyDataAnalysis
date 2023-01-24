@@ -46,6 +46,102 @@ plt.ioff()
 #########################################################
 
 
+
+class VisualizeRelational:
+    """ Visualize Relational Plot """
+    def __init__(
+        self, 
+        input_df:DataFrame, 
+        name:str,
+        x:str,
+        y:str,
+        show_plot:bool=False,
+        export_plot:bool=False
+    ) -> None:
+        
+        self.df = input_df.copy()
+        self.name = name.title()
+        
+        self.x = x
+        self.y = y
+        
+        self._show = show_plot
+        self._export = export_plot
+
+        self._LABEL_ROTATION:int = 90
+        self._FIGSIZE:int = (30,15)
+        self._ASPECT:int = 2.5
+        self._PALETTE = "rocket"
+        
+        self._CHART_NAME = f"{self.name} Data - {self.y.title()} over {self.x.title()}"
+        self._REL_NAME = f"{self.y.title()}&{self.x.title()}"
+        
+        plt.ioff()
+        
+    def BoxPlot(self, show:bool=False):
+        fig = sns.catplot(
+            x=self.x, 
+            y=self.y, 
+            data=self.df, 
+            kind="box", 
+            aspect=self._ASPECT, 
+            palette=self._PALETTE
+        )
+        fig.set_xticklabels(rotation=90)
+        fig.set(title=self._CHART_NAME)
+        fig.tight_layout()
+        
+        if self._export:
+            plt.savefig(OUTPUT_MAIN / f"{DATE_FORMAT}-{self.name.title()}Data_BoxPlot_{self._REL_NAME}")
+            
+        if self._show or show:
+            plt.show()
+        else:
+            plt.close("all")
+        
+    def LinePlot(self, show:bool=False):
+        fig = sns.relplot(
+            x=self.x, 
+            y=self.y, 
+            data=self.df, 
+            kind="line",
+            ci="sd",
+            aspect=self._ASPECT,
+            palette=self._PALETTE
+        )
+        fig.set(title=self._CHART_NAME)
+        fig.tight_layout()
+        
+        if self._export:
+            plt.savefig(OUTPUT_MAIN / f"{DATE_FORMAT}-{self.name.title()}Data_LinePlot_{self._REL_NAME}")
+            
+        if self._show or show:
+            plt.show()
+        else:
+            plt.close("all")
+        
+    def ScatterPlot(self, show:bool=False):
+        fig = sns.relplot(
+            x=self.x, 
+            y=self.y, 
+            data=self.df, 
+            kind="scatter",
+            aspect=self._ASPECT,
+            palette=self._PALETTE
+        )
+        fig.set(title=self._CHART_NAME)
+        fig.tight_layout()
+        
+        if self._export:
+            plt.savefig(OUTPUT_MAIN / f"{DATE_FORMAT}-{self.name.title()}Data_ScatterPlot_{self._REL_NAME}")
+            
+        if self._show or show:
+            plt.show()
+        else:
+            plt.close("all")
+
+
+
 # Redundant to pandas-profiling
 def export_correlation(input_df:DataFrame, name:str):
     all_correlation = ["spearman", "kendall", "pearson"]
