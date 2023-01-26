@@ -54,7 +54,7 @@ class AutoExploratoryAnalysis:
         profile.to_file(OUTPUT_EXPLORE / profile_name)
         
 
-class CountMissingData:
+class EvalMissingData:
     """ Get the missing data count and percentage based on input dataframe. """
     
     def __init__(self, input_df:DataFrame) -> DataFrame:
