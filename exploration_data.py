@@ -6,7 +6,9 @@
 #                                        #
 ##########################################
 
-from pandas import DataFrame, Series
+
+from pandas import DataFrame
+import pandas as pd
 from datetime import date
 
 import numpy as np
@@ -50,7 +52,20 @@ class AutoExploratoryAnalysis:
         
         profile_name = f"{DATE_FORMAT}-{self.name}Data_Profiling.html"
         profile.to_file(OUTPUT_EXPLORE / profile_name)
+        
 
+class CountMissingData:
+    """ Get the missing data count and percentage based on input dataframe. """
+    
+    def __init__(self, input_df:DataFrame) -> DataFrame:
+        self.df = input_df
+        
+    def get(self):
+        total = self.df.isnull().sum().sort_values(ascending=False)
+        percent = (self.df.isnull().sum()/self.df.isnull().count()).sort_values(ascending=False)
+        missing_data = pd.concat([total, percent], axis=1, keys=['TotalMissing', 'Percent%'])
+        return missing_data
+        
 
 class VisualizeMissing:
     def __init__(
