@@ -25,6 +25,7 @@ PATH_OUTPUT =   PATH_ROOT / "output"
 TRACK_DATA =    PATH_DATA / "tracks.parquet"
 ARTIST_DATA =   PATH_DATA / "artists.parquet"
 
+OUTPUT_MISSING = PATH_OUTPUT / "00-explore_missing"
 OUTPUT_EXPLORE = PATH_OUTPUT / "01-data_exploration"
 OUTPUT_TRANSFORM = PATH_OUTPUT / "02-data_transformation"
 OUTPUT_MAIN = PATH_OUTPUT / "03-analysis_main"

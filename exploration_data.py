@@ -11,17 +11,11 @@ from datetime import date
 
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import missingno as msno
-import math
+from typing import Any
 
-from typing import List, Dict, Final, Optional
-
-from relative_path import OUTPUT_EXPLORE, OUTPUT_MAIN, OUTPUT_FEATURE, PATH_OUTPUT
 from pandas_profiling import ProfileReport
-
-import plotly.graph_objects as go
-import plotly.offline as pyo
+from relative_path import OUTPUT_MISSING, OUTPUT_EXPLORE
 
 #############################################
 #   ___ _____ _   _  _ ___   _   ___ ___    #
@@ -44,6 +38,18 @@ plt.ioff()
 #  |___/|___|_| |___|_|\_|___| |_| |___\___/|_|\_|___/  #
 #                                                       #
 #########################################################
+
+
+class AutoExploratoryAnalysis:
+    def __init__(self, input_df:DataFrame, name:str) -> None:
+        self.df:DataFrame = input_df
+        self.name = name.title()
+        
+    def create_profiling(self) -> ProfileReport:
+        profile = ProfileReport(self.df, title=f"{self.name} Data")
+        
+        profile_name = f"{DATE_FORMAT}-{self.name}Data_Profiling.html"
+        profile.to_file(OUTPUT_EXPLORE / profile_name)
 
 
 class VisualizeMissing:
@@ -80,7 +86,17 @@ class VisualizeMissing:
             self.df.replace("", np.NaN, inplace=True)
         if replace_zero:
             self.df.replace(0,  np.NaN, inplace=True)
-    
+            
+    def _saving_and_showing(self, _name:str, _show:bool) -> Any:
+        if self._export:
+            plt.savefig(OUTPUT_MISSING / _name)
+        
+        # Show or Hide Plot
+        if self._show or _show:
+            plt.show()
+        else:
+            plt.close("all")
+        
     def Bar(self, show:bool=False):
         fig = msno.bar(
             df = self.df, 
@@ -93,14 +109,8 @@ class VisualizeMissing:
         fig_name = f"{DATE_FORMAT}-{self.name}Data_BarChart-NullExplore.png"
         fig.set(title=chart_name)
         
-        if self._export:
-            plt.savefig(OUTPUT_EXPLORE / fig_name)
-        
-        # Show or Hide Plot
-        if self._show or show:
-            plt.show()
-        else:
-            plt.close("all")
+        # Save or Show the results
+        self._saving_and_showing(_name = fig_name, _show = show)
     
     
     def Matrix(self, show:bool=False):
@@ -115,15 +125,8 @@ class VisualizeMissing:
         fig_name = f"{DATE_FORMAT}-{self.name}Data_MatrixChart-NullExplore.png"
         fig.set(title=chart_name)
         
-        if self._export:
-            plt.savefig(OUTPUT_EXPLORE / fig_name)
-        
-        # Show or Hide Plot
-        if self._show or show:
-            plt.show()
-        else:
-            plt.close("all")
-    
+        # Save or Show the results
+        self._saving_and_showing(_name = fig_name, _show = show)
     
     def Heatmap(self, show:bool=False):
         fig = msno.heatmap(
@@ -137,14 +140,8 @@ class VisualizeMissing:
         fig_name = f"{DATE_FORMAT}-{self.name}Data_HeatmapChart-NullExplore.png"
         fig.set(title=chart_name)
         
-        if self._export:
-            plt.savefig(OUTPUT_EXPLORE / fig_name)
-            
-        # Show or Hide Plot
-        if self._show or show:
-            plt.show()
-        else:
-            plt.close("all")
+        # Save or Show the results
+        self._saving_and_showing(_name = fig_name, _show = show)
     
 
 ######################################
