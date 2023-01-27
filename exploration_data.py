@@ -19,6 +19,11 @@ from typing import Any
 from pandas_profiling import ProfileReport
 from relative_path import OUTPUT_MISSING, OUTPUT_EXPLORE
 
+import math
+import seaborn as sns
+
+from pathlib import Path
+
 #############################################
 #   ___ _____ _   _  _ ___   _   ___ ___    #
 #  / __|_   _/_\ | \| |   \ /_\ | _ |   \   #
@@ -42,16 +47,105 @@ plt.ioff()
 #########################################################
 
 
-class AutoExploratoryAnalysis:
-    def __init__(self, input_df:DataFrame, name:str) -> None:
+# class AutoExploratoryAnalysis:
+#     def __init__(self, input_df:DataFrame, name:str) -> None:
+#         self.df:DataFrame = input_df
+#         self.name = name.title()
+        
+#     def create_profiling(self) -> ProfileReport:
+#         profile = ProfileReport(self.df, title=f"{self.name} Data")
+        
+#         profile_name = f"{DATE_FORMAT}-{self.name}Data_Profiling.html"
+#         profile.to_file(OUTPUT_EXPLORE / profile_name)
+        
+        
+class EvaluateDataset:
+    """ Standard evaluation for the dataframe. """
+    def __init__(
+            self, 
+            input_df:DataFrame, 
+            data_name:str, 
+            
+            export_plot:bool=False, 
+            show_plot:bool=False,
+            
+            output_path:Path = OUTPUT_EXPLORE,
+        ) -> None:
+        
         self.df:DataFrame = input_df
-        self.name = name.title()
+        self.name:str = data_name.title()
+        self._profile = ProfileReport(self.df, title=self.name)
         
-    def create_profiling(self) -> ProfileReport:
-        profile = ProfileReport(self.df, title=f"{self.name} Data")
+        self._export = export_plot
+        self._show = show_plot
         
+        self._color = "orange"
+        self._figsize = (16,10) 
+        self._dpi = 720
+        self._aspect = 3
+        
+        self.output_path = output_path
+        plt.ioff()
+        
+    @property
+    def dataframe(self):
+        return self.df
+        
+    @property
+    def profile(self):
+        return self._profile
+            
+    def get_profiling(self) -> None:
         profile_name = f"{DATE_FORMAT}-{self.name}Data_Profiling.html"
-        profile.to_file(OUTPUT_EXPLORE / profile_name)
+        if self._export:
+            self._profile.to_file(self.output_path / profile_name)
+        
+    def get_all_corr(self, show:bool=False):
+        all_correlation = ["spearman", "kendall", "pearson"]
+    
+        for corr in all_correlation:
+            plt.figure(figsize=self._figsize, dpi=self._dpi)
+            df_corr = self.df.corr(method=corr)
+            
+            fig = sns.heatmap(df_corr, annot=True, cmap="inferno", center=0)
+            fig.set(title=f"{self.name} - {corr.title()} Correlation Heatmap")
+            
+            fig_name = f"{DATE_FORMAT}-{self.name}Data_Corr{corr.title()}.png"
+            self._saving_and_showing(_name = fig_name, _show = show)
+    
+    def get_all_hist(self, show:bool=False):
+        num_in_df = self.df.select_dtypes(include="number")
+        row_size = math.ceil(len(num_in_df.columns) / 4) * 5
+        fig = num_in_df.hist(bins=20, color=self._color, figsize=(30, row_size))
+        
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_Hist.png"
+        self._saving_and_showing(_name = fig_name, _show = show)
+
+        
+    def get_category_hist(self, column_name:str, show:bool=False):
+        fig = sns.displot(self.df[column_name], discrete=True, aspect=self._aspect, kind='hist', color=self._color)
+        
+        # Setting the x label
+        xlabel = column_name.replace("_", " ").title()
+        
+        # Setting the title
+        title_name = f"{self.name.title()} Data - Count over {column_name.title()}"
+        fig.set(title=title_name, xlabel=xlabel)
+        fig.tight_layout()
+        
+        fig_name = f"{DATE_FORMAT}-{self.name}Data_{column_name.title()}_CategoryHist.png"
+        self._saving_and_showing(_name = fig_name, _show = show)
+        
+    def _saving_and_showing(self, _name:str, _show:bool):
+        if self._export:
+            plt.savefig(self.output_path / _name)
+        
+        # Show or Hide Plot
+        if self._show or _show:
+            plt.show()
+        else:
+            plt.close("all")
+        
         
 
 class EvalMissingData:
@@ -65,6 +159,7 @@ class EvalMissingData:
         percent = (self.df.isnull().sum()/self.df.isnull().count()).sort_values(ascending=False)
         missing_data = pd.concat([total, percent], axis=1, keys=['TotalMissing', 'Percent%'])
         return missing_data
+        
         
 
 class VisualizeMissing:
