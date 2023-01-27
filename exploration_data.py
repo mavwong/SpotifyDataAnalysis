@@ -46,21 +46,9 @@ plt.ioff()
 #                                                       #
 #########################################################
 
-
-# class AutoExploratoryAnalysis:
-#     def __init__(self, input_df:DataFrame, name:str) -> None:
-#         self.df:DataFrame = input_df
-#         self.name = name.title()
-        
-#     def create_profiling(self) -> ProfileReport:
-#         profile = ProfileReport(self.df, title=f"{self.name} Data")
-        
-#         profile_name = f"{DATE_FORMAT}-{self.name}Data_Profiling.html"
-#         profile.to_file(OUTPUT_EXPLORE / profile_name)
-        
         
 class EvaluateDataset:
-    """ Standard evaluation for the dataframe. """
+    """ Standard evaluation and visualization for the dataframe. """
     def __init__(
             self, 
             input_df:DataFrame, 
@@ -172,7 +160,9 @@ class VisualizeMissing:
             show_plot:bool=False,
             
             process_null:bool=False, 
-            process_zero:bool=False
+            process_zero:bool=False,
+            
+            output_path:Path=OUTPUT_MISSING
         ) -> None:
         
         self.df:DataFrame = input_df
@@ -185,6 +175,8 @@ class VisualizeMissing:
         self._fontsize:int = 16
         self._label_rotation:int = 90
         self._figsize:int = (30,15)
+        
+        self.output_path:Path = output_path
         
         self._about:str = "Visualize Missing, NA, 0 values"
         plt.ioff()
@@ -199,7 +191,7 @@ class VisualizeMissing:
             
     def _saving_and_showing(self, _name:str, _show:bool) -> Any:
         if self._export:
-            plt.savefig(OUTPUT_MISSING / _name)
+            plt.savefig(self.output_path / _name)
         
         # Show or Hide Plot
         if self._show or _show:
@@ -221,7 +213,6 @@ class VisualizeMissing:
         
         # Save or Show the results
         self._saving_and_showing(_name = fig_name, _show = show)
-    
     
     def Matrix(self, show:bool=False):
         fig = msno.matrix(
