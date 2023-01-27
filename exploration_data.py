@@ -136,7 +136,7 @@ class EvaluateDataset:
         
         
 
-class EvalMissingData:
+class CountMissingData:
     """ Get the missing data count and percentage based on input dataframe. """
     
     def __init__(self, input_df:DataFrame) -> DataFrame:
@@ -145,7 +145,7 @@ class EvalMissingData:
     def get(self):
         total = self.df.isnull().sum().sort_values(ascending=False)
         percent = (self.df.isnull().sum()/self.df.isnull().count()).sort_values(ascending=False)
-        missing_data = pd.concat([total, percent], axis=1, keys=['TotalMissing', 'Percent%'])
+        missing_data = pd.concat([total, percent], axis=1, keys=['Missing_Count', 'Missing_Percent%'])
         return missing_data
         
         
