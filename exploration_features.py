@@ -97,7 +97,7 @@ class VisualizeFeatureColumns:
             go.Scatterpolar(r=self.df[self._feature].head(top_25).median(), theta=self._feature, fill='toself', opacity=0.6, name="Top 25%"),
         ],
         layout=go.Layout(
-            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
             polar={'radialaxis': {'visible':True}},
             showlegend=True
             )
@@ -114,7 +114,7 @@ class VisualizeFeatureColumns:
             go.Scatterpolar(r=self.df[self._feature].median(), theta=self._feature, fill='toself', opacity=0.6, name='All'),
         ],
         layout=go.Layout(
-            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data count."),
+            title=go.layout.Title(text=f"Median: Feature comparison based on {self._criteria.title()} data percentage."),
             polar={'radialaxis': {'visible':True}},
             showlegend=True
             )
