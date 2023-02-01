@@ -35,12 +35,10 @@ valence: A measure from 0.0 to 1.0 describing the musical positiveness conveyed 
 - time_signature: An estimated overall time signature of a track. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure).
 
 
-### 1.2 Questions and Hypothesis. (sample)
+### 1.2 Questions and Hypothesis
 
-1. Does the price have an influence on the volume? 'Yes, the price has an influence on the volume, vice versa.'
-2. Which areas consumed avocados the most from 2015 to 2021? 
-3. the plu4770 being the biggest Hass variety, is it also the one consumed the most?
-4. is the trend in the most consuming city a mirror image of the general trend in the U.S?
+- Does the artist popularity have a direct correlation on how popular the track will be?
+- What features of the track should the artist be concern about?
 
 ## 2. Approach and Analysis
 ### 2.1 Project Stages
@@ -58,19 +56,35 @@ Here, we created a workflow and project stages to make sure that our analysis is
 
 ## 3. Result
 
-### 3.1 Results (per stage)
-Due to many results, I am only going show some of the result per stage.
+### 3.1 Results and Output per stage
+In this repo, we will only be highlighting the main points and visualization per stage.
 
 #### Exploring Dataset
 With the matrix diagram, we were able to analyze values that has null, zero and nan in the entire dataset, plus the location of those values. Another good visualization for this stage, histogram of all the features within the dataset. This reveals the skewness of the distribution. For example in the popularity histogram, there is a lot of the datapoints with 0 values within the column.
 
-![alt text](output/01-data_exploration/2023114-TracksData_MatrixChart-NullExplore.png)
-![alt text](output/01-data_exploration/2023115-TracksData_Hist.png)
+![alt text](output/01-data_exploration/2023127-TracksData_Popularity_CategoryHist.png)
+![alt text](output/01-data_exploration/2023127-TracksData_Hist.png)
 
 #### Transforming Dataset
+Joining the two datasets, artists and tracks data, took a long time to process with pandas library. Although joining two dataframes is necessary to understand the relationship between artist popularity and the track popularity.
 
-#### Main Features
-#### Features 
+#### Main Analysis
+
+Although we did explore the distribution in the first stages of the workflow, we still created distribution for each main column to make sure that values are not skewed towards one or a few values in the column distribution. 
+
+![alt text](output/03-analysis_main/202322-TracksData_Hist.png)
+![alt text](output/03-analysis_main/2023128-TracksData_Track_Popularity_CategoryHist.png)
+
+Moreover, there is a direct trend between the artist popularity or artist followers over track popularity. That means - given the current artist is well-knowned, then as analyzed, there is a bigger chance that the track will also be as popular.
+
+![alt text](output/03-analysis_main/202322-TracksData_BoxPlot_Artist_Mean_Popularity&Track_Popularity.png)
+![alt text](output/03-analysis_main/202322-TracksData_LinePlot_Artist_Mean_Popularity&Track_Popularity.png)
+
+Although, there might be also be a possibility that the dataset is biased towards the newer tracks, given the dataset viewer is at a younger generation. This is only an assumption based on this chart.
+
+![alt text](output/03-analysis_main/Popularity_with_year.png)
+
+#### Features Check
 The top 10% and 25% of the tracks in the datasets has high energy, high danceability and high valence.
 
 ![alt text](output/04-analysis_feature/2023116-TracksData_PolarFeatureByCount.png)
